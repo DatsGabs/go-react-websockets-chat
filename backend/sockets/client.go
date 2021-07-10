@@ -1,6 +1,7 @@
 package sockets
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -30,22 +31,17 @@ func (client *Client) sendToEveryone(message string)  {
 // listens to any changes in the feed and action channel
 func (client *Client) feedHandler() {
 	for {
+		fmt.Println("feed")
 		select {
-		case action, channelOpened := <- client.actions:
+		case action := <- client.actions:
 			err := client.conn.WriteJSON(action)
-			if !channelOpened {
-				return
-			}
 
 			if err != nil {
 				log.Printf("err: %s", err)
 				return
 			}
 
-		case message, channelOpened := <- client.feed:
-			if !channelOpened {
-				return
-			}
+		case message  := <- client.feed:
 			res := &Action {
 				Event: "message",
 				Content: message,
@@ -62,8 +58,6 @@ func (client *Client) feedHandler() {
 // reads if there was a message sent in the connection
 func (client *Client) reader() {
 	defer func() {	
-		close(client.feed)	
-		close(client.actions)
 		client.hub.unregister <- client
 		client.conn.Close()	
 	}()

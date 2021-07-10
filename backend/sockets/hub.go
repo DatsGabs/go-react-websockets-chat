@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 )
-
-
 type Hub struct {
 	clients    map[*Client]string
 	register   chan *Register

@@ -32,7 +32,7 @@ export default function App() {
         }
 
         ws.current = new WebSocket(
-            `${wsProtocol}://${window.location.hostname}:${location.port}/ws`
+            `${wsProtocol}://${window.location.hostname}:8000/ws`
         )
 
         ws.current.onopen = () => setConnection(true)

@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
+	"time"
 
 	"github.com/chat-golang/sockets"
 	"github.com/gorilla/mux"
@@ -20,6 +22,13 @@ func main() {
 
 	hub := sockets.CreateHub()
 	go hub.RunHub()
+
+	go func ()  {
+		for {
+			fmt.Println(runtime.NumGoroutine() - 3)	
+			time.Sleep(time.Second * 10)
+		}		
+	}()
 
 	router.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		sockets.HandleConnections(w, r, hub)
