@@ -32,8 +32,9 @@ export default function App() {
         }
 
         ws.current = new WebSocket(
-            `${wsProtocol}://${window.location.hostname}:8000/ws`
+            `${wsProtocol}://${window.location.hostname}:${location.port}/ws`
         )
+
         ws.current.onopen = () => setConnection(true)
         ws.current.onclose = () => setConnection(false)
         ws.current.onmessage = (event) => {
