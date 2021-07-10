@@ -25,7 +25,15 @@ export default function App() {
     joinedValue.current = joined
 
     useEffect(() => {
-        ws.current = new WebSocket(`ws://${window.location.hostname}:8000/ws`)
+        let wsProtocol = "ws"
+
+        if (location.protocol === "https:") {
+            wsProtocol = "wss"
+        }
+
+        ws.current = new WebSocket(
+            `${wsProtocol}://${window.location.hostname}:8000/ws`
+        )
         ws.current.onopen = () => setConnection(true)
         ws.current.onclose = () => setConnection(false)
         ws.current.onmessage = (event) => {
