@@ -1,6 +1,6 @@
 # go-react-websockets-chat
 
-This is a basic application for handling users concurrently using goroutines and websockets. 
+This is a Reactjs and Golang application for handling users concurrently using goroutines and websockets. 
 
 For cloning this repo 
 
